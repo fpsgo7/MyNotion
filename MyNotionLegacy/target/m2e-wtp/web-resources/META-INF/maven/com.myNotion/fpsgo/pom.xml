@@ -149,6 +149,42 @@
 			<version>2.13.4</version>
 		</dependency>
 
+		<!-- DB -->
+
+		<!-- ojdbc8 -->
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>21.7.0.0</version>
+		</dependency>
+
+		<!-- spring-jdbc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<!-- HikariCP -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>5.0.1</version>
+		</dependency>
+
+		<!-- mybatis관련 -->
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.10</version>
+		</dependency>
+		<!-- mybatis-spring -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>2.0.7</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
