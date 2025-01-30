@@ -13,7 +13,7 @@
 	</appender>
 
 	<!-- Application Loggers -->
-	<logger name="com.yedam.java">
+	<logger name="com.myNotion.fpsgo">
 		<level value="info" />
 	</logger>
 
