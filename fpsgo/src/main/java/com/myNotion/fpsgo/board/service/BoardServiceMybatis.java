@@ -22,4 +22,12 @@ public class BoardServiceMybatis {
     public List<Board> getBoardPage(Criteria cri){
         return boardMapper.selectBoardPage(cri);
     }
+
+    public List<Board> getBoardPageSearch(Criteria cri) {
+        return boardMapper.selectBoardPageSearch(cri);
+    }
+
+    public int getTotalCount(Criteria cri){
+        return boardMapper.selectTotalCount(cri);
+    }
 }

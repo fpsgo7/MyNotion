@@ -24,7 +24,62 @@
         ]]>
     </select>
 
-    <select id="getTotalCount" resultType="int">
-        select count(*) from board where no > 0
+    <!-- 페이징과 검색 추가 -->
+    <select id="selectBoardPageSearch">
+        <![CDATA[
+        SELECT
+            no,title,content,author
+        FROM(
+            SELECT /*+ INDEX_DESC(board board_pk)*/
+                ROWNUM rn, no, title, content, author
+            FROM
+                board
+            WHERE
+        ]]>
+            <trim prefix="(" suffix=")AND " prefixOverrides="OR">
+                <foreach item="type" collection="typeArr">
+                    <trim prefix="OR">
+                        <choose>
+                            <when test="type == 'T'.toString()">
+                                title like '%' || #{keyword} || '%'
+                            </when>
+                            <when test="type == 'C'.toString()">
+                                content like '%' || #{keyword} || '%'
+                            </when>
+                            <when test="type == 'A'.toString()">
+                                author like '%' || #{keyword} || '%'
+                            </when>
+                        </choose>
+                    </trim>
+                </foreach>
+            </trim>
+        <![CDATA[
+            ROWNUM <= #{pageNum} * #{amount}
+            )
+        WHERE rn > (#{pageNum} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="selectTotalCount" resultType="int">
+        select count(*)
+        from board
+        where
+        <trim prefix="(" suffix=")" prefixOverrides="OR">
+            <foreach item="type" collection="typeArr">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'T'.toString()">
+                            title like '%' || #{keyword} || '%'
+                        </when>
+                        <when test="type == 'C'.toString()">
+                            content like '%' || #{keyword} || '%'
+                        </when>
+                        <when test="type == 'A'.toString()">
+                            author like '%' || #{keyword} || '%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
     </select>
 </mapper>

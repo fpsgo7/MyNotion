@@ -2,9 +2,12 @@ package com.myNotion.fpsgo.board.web;
 
 import com.myNotion.fpsgo.board.Board;
 import com.myNotion.fpsgo.board.Criteria;
+import com.myNotion.fpsgo.board.PageDTO;
 import com.myNotion.fpsgo.board.service.BoardServiceJPA;
 import com.myNotion.fpsgo.board.service.BoardServiceMybatis;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +25,20 @@ public class BoardController {
     }
 
     @GetMapping("/boards")
-    public List<Board> getBoards(){
-        Criteria cri = new Criteria(1,10);
-        return boardServiceMybatis.getBoardPage(cri);
+    public ResponseEntity<JSONObject> getBoards(
+            @RequestParam(value = "pageNum") String pageNum
+            ,@RequestParam(value = "amount")  String amount
+            ,@RequestParam(value = "type")  String type
+            ,@RequestParam(value = "keyword")  String keyword
+    ){
+        JSONObject jsonObject = new JSONObject();
+        Criteria cri = new Criteria(Integer.parseInt(pageNum) ,Integer.parseInt(amount) ,type,keyword);
+        int total = boardServiceMybatis.getTotalCount(cri);
+        PageDTO pageDTO = new PageDTO(cri, total);
+        List<Board> boards = boardServiceMybatis.getBoardPageSearch(cri);
+        jsonObject.put("pageInfo",pageDTO);
+        jsonObject.put("boards", boards);
+        return ResponseEntity.ok().body(jsonObject);
     }
 
     @PostMapping("/board")
